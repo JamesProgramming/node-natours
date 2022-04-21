@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xssClean = require('xss-clean');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -24,23 +25,13 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Sering static files
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
 
 // Set Security HTTP header
 app.use(
   helmet({
     crossOriginEmbedderPolicy: false,
-    contentSecurityPolicy: {
-      directives: {
-        'child-src': ['blob:'],
-        'connect-src': ['https://*.mapbox.com'],
-        'default-src': ["'self'"],
-        'font-src': ["'self'", 'https://fonts.gstatic.com'],
-        'img-src': ["'self'", 'data:', 'blob:'],
-        'script-src': ["'self'", 'https://*.mapbox.com'],
-        'style-src': ["'self'", 'https:'],
-        'worker-src': ['blob:'],
-      },
-    },
+    contentSecurityPolicy: false,
   })
 );
 
@@ -89,7 +80,7 @@ app.use(
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.headers);
+  console.log(req.cookies);
   next();
 });
 

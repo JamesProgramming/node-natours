@@ -1,5 +1,4 @@
 const Tour = require('../models/tourModel');
-const Review = require('../models/reviewModel');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getOverview = catchAsync(async (req, res) => {
