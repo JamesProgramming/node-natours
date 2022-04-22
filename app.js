@@ -51,6 +51,7 @@ app.use('/api', limiter);
 
 // Body parser, reading data from baody into req.body
 app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // Data sanitization against NoSQL quary injection
 app.use(mongoSanitize());
@@ -80,7 +81,7 @@ app.use(
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.cookies);
+  //console.log(req.cookies);
   next();
 });
 
