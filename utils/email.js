@@ -11,8 +11,14 @@ module.exports = class Email {
   }
 
   newTransport() {
-    if (process.NODE_ENV === 'productions') {
-      return 1;
+    if (process.NODE_ENV === 'production') {
+      return nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.GMAIL_FROM,
+          pass: process.env.GMAIL_PASSWORD,
+        },
+      });
     }
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
